@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>United Airlines Virtual (UALV)</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter for a modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://ik.imagekit.io/hswtnwf8i/United-Airlines-New-Logo.png?updatedAt=1752349203460" type="image/png" />
+    <style>
+        /* Custom CSS to apply Inter font globally and smooth scrolling */
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+            cursor: pointer; /* Indicate it's interactive */
+        }
+
+        /* Styles for the custom login modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Ensure it's on top of other content */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+        }
+
+        /* Styles for user info in header */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px; /* Full rounded */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
+
+        .user-info span {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .logout-button {
+            background-color: #ef4444; /* Red-500 */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px; /* Full rounded */
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+            margin-left: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-button:hover {
+            background-color: #dc2626; /* Red-600 */
+        }
+
+        .discord-login-btn {
+            background-color: #5865F2; /* Discord blue */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .discord-login-btn:hover {
+            background-color: #4752C4;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-blue-800 text-white shadow-lg py-4 px-6 md:px-12 rounded-b-xl">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+            <!-- Logo and Title -->
+            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                <!-- Placeholder for UALV Logo -->
+                <img src="https://ik.imagekit.io/hswtnwf8i/United-Airlines-New-Logo.png?updatedAt=1752349203460" alt="UALV Logo" class="h-16 w-16 rounded-full shadow-md">
+                <h1 class="text-3xl md:text-4xl font-bold tracking-tight">United Airlines Virtual</h1>
+            </div>
+            <!-- Navigation Menu -->
+            <nav class="flex-grow flex justify-center md:justify-end">
+                <ul class="flex flex-wrap justify-center md:space-x-8 space-x-4">
+                    <li><a href="#home" class="hover:text-blue-200 transition duration-300 text-lg font-medium">Home</a></li>
+                    <li><a href="#about" class="hover:text-blue-200 transition duration-300 text-lg font-medium">About</a></li>
+                    <li><a href="#discord" class="hover:text-blue-200 transition duration-300 text-lg font-medium">Discord</a></li>
+                    <li><a href="#features" class="hover:text-blue-200 transition duration-300 text-lg font-medium">Features</a></li>
+                    <li><a href="#join" class="hover:text-blue-200 transition duration-300 text-lg font-medium">Join Us</a></li>
+                </ul>
+            </nav>
+            <!-- User Actions / Login Status -->
+            <div class="user-actions mt-4 md:mt-0 md:ml-8 flex items-center">
+                <!-- Content here will be populated by JavaScript -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative bg-gradient-to-r from-blue-700 to-blue-900 text-white py-20 md:py-32 flex items-center justify-center overflow-hidden rounded-b-xl shadow-inner">
+        <!-- Background pattern for visual interest -->
+        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm12 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm-24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm-24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zM0 40v-4h-2v4H0v2h4v4h2v-4h4v-2H6v-4H2zm0-10V0h-2v4H0v2h4v4h2V6h4V4h-4zm0-10V0h-2v4H0v2h4v4h2V6h4V4h-4zM24 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zM48 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4z\' fill=\'%239C92AC\' fill-opacity=\'0.1\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+        <div class="container mx-auto text-center relative z-10">
+            <h2 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Fly the Friendly Skies, Virtually!</h2>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto opacity-90">
+                Welcome to United Airlines Virtual (UALV) – your premier destination for realistic flight simulation on the Project Flight network, featuring a <span class="font-semibold text-yellow-300">unique virtual economy</span> and a vibrant community.
+            </p>
+            <a href="#join" class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out inline-block">
+                Join Our Discord Server
+            </a>
+        </div>
+    </section>
+
+    <!-- Main Content Sections -->
+    <main class="container mx-auto py-16 px-6 md:px-12">
+
+        <!-- About UALV Section -->
+        <section id="about" class="bg-white p-8 md:p-12 rounded-xl shadow-lg mb-16">
+            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-6 text-center">About United Airlines Virtual</h3>
+            <div class="flex flex-col md:flex-row items-center md:space-x-8">
+                <div class="md:w-1/2 mb-6 md:mb-0">
+                    <img src="https://placehold.co/600x400/e0e7ff/3f51b5?text=UALV+Community" alt="UALV Community" class="rounded-lg shadow-md w-full h-auto">
+                </div>
+                <div class="md:w-1/2">
+                    <p class="text-lg leading-relaxed mb-4">
+                        United Airlines Virtual (UALV) is a dedicated community of flight simulation enthusiasts on the **Project Flight network**. While many airlines follow the 'log flights, climb ranks, get to the top' system, UALV offers a refreshing **change** with a vastly different and engaging operational experience.
+                    </p>
+                    <p class="text-lg leading-relaxed mb-4">
+                        Our CEO has meticulously configured the entire server to an extremely high standard, ensuring a premium experience for all aviators. We are also thrilled to announce our official merger, bringing together even more highly experienced members to solidify our grounds as an exclusive virtual airline.
+                    </p>
+                    <p class="text-lg leading-relaxed">
+                        Our mission is to simulate flight operations as close as possible to real-world airlines, guaranteeing a resonating reputation as we continue extending our path ahead. You'll always find yourself busy, progressing both your Pilot Ranks and our unique Premier Tiers!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Discord Server Section -->
+        <section id="discord" class="bg-blue-100 p-8 md:p-12 rounded-xl shadow-lg mb-16">
+            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-6 text-center">Our Discord Server</h3>
+            <div class="flex flex-col md:flex-row-reverse items-center md:space-x-reverse md:space-x-8">
+                <div class="md:w-1/2 mb-6 md:mb-0">
+                    <img src="https://placehold.co/600x400/c7d2fe/4f46e5?text=Discord+Community" alt="Discord Community" class="rounded-lg shadow-md w-full h-auto">
+                </div>
+                <div class="md:w-1/2">
+                    <p class="text-lg leading-relaxed mb-4">
+                        The UALV Discord server is the heart of our community. It's where pilots connect, claim flight contracts, plan flights, share experiences, and participate in events. You'll find channels for:
+                    </p>
+                    <ul class="list-disc list-inside text-lg leading-relaxed space-y-2 mb-6">
+                        <li><strong>Flight Planning:</strong> Get help with routes, weather, and aircraft setups.</li>
+                        <li><strong>Contract Claims:</strong> Engage with our virtual economy by claiming lucrative flight contracts.</li>
+                        <li><strong>Event Announcements:</strong> Stay updated on group flights, challenges, and training sessions.</li>
+                        <li><strong>General Chat:</strong> Socialize with other members and discuss all things aviation.</li>
+                        <li><strong>Support:</strong> Get assistance with simulator setup, UALV procedures, and more.</li>
+                    </ul>
+                    <p class="text-lg leading-relaxed font-semibold">
+                        It's the perfect place to immerse yourself in the UALV experience! Please welcome our new crew members as they begin settling in!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="bg-white p-8 md:p-12 rounded-xl shadow-lg mb-16">
+            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-8 text-center">What UALV Offers</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature Card 1: Virtual Economy -->
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">💰</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Dynamic Virtual Economy</h4>
+                    <p class="text-gray-700 text-center">
+                        Go beyond simple flight logging! Claim **flight contracts** to earn virtual cash and progress through our unique system.
+                    </p>
+                </div>
+                <!-- Feature Card 2: Premier Status Tiers -->
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🌟</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Exclusive Premier Tiers</h4>
+                    <p class="text-gray-700 text-center">
+                        Use your virtual cash to purchase Premier Status Tiers, unlocking exciting benefits like exclusive contracts and early giveaway notices!
+                    </p>
+                </div>
+                <!-- Feature Card 3: Realistic Operations -->
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">✈️</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Authentic Flight Simulation</h4>
+                    <p class="text-gray-700 text-center">
+                        Experience flight operations modeled as close as possible to real-world United Airlines procedures on the Project Flight network.
+                    </p>
+                </div>
+                <!-- Feature Card 4: Vibrant & Expanded Community -->
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🤝</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Vibrant & Expanded Community</h4>
+                    <p class="text-gray-700 text-center">
+                        Join a friendly and active community, now strengthened by new, experienced members for an even richer experience.
+                    </p>
+                </div>
+                <!-- Feature Card 5: Engaging Events & Pilot Progression -->
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🗓️</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Engaging Events & Progression</h4>
+                    <p class="text-gray-700 text-center">
+                        Participate in regular group flights and continuously progress both your Pilot Ranks and Premier Tiers.
+                    </p>
+                </div>
+                <!-- Feature Card 6: Simulator Agnostic -->
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🎮</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Project Flight Focused</h4>
+                    <p class="text-gray-700 text-center">
+                        Designed for the Project Flight network, offering a unique and engaging experience unlike others.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Join Us Section -->
+        <section id="join" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 md:p-12 rounded-xl shadow-lg text-center">
+            <h3 class="text-3xl md:text-4xl font-bold mb-6">Ready to Join UALV?</h3>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+                Becoming a part of the United Airlines Virtual family is easy! Simply click the button below to join our Discord server and start your unique virtual aviation journey on Project Flight.
+            </p>
+            <!-- Call to Action Button -->
+            <a href="YOUR_DISCORD_INVITE_LINK_HERE" target="_blank" rel="noopener noreferrer"
+               class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-4 px-10 rounded-full text-2xl shadow-xl transform hover:scale-105 transition duration-300 ease-in-out inline-block animate-pulse">
+                Join UALV Discord Now!
+            </a>
+            <p class="text-sm mt-4 opacity-80">
+                (Remember to replace "YOUR_DISCORD_INVITE_LINK_HERE" with your actual Discord invite link!)
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-blue-900 text-white py-8 px-6 md:px-12 mt-16 rounded-t-xl shadow-inner">
+        <div class="container mx-auto text-center">
+            <p class="text-lg mb-4">&copy; 2025 United Airlines Virtual (UALV). All rights reserved.</p>
+            <p class="text-sm opacity-80">
+                This website is a fan-made project and is not affiliated with, endorsed by, or sponsored by United Airlines, Inc.
+            </p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <!-- Placeholder for social media links if needed -->
+                <a href="#" class="hover:text-blue-300 transition duration-300 text-lg">Privacy Policy</a>
+                <a href="#" class="hover:text-blue-300 transition duration-300 text-lg">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom Discord Login Modal -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold text-blue-800 mb-4">Login Required</h3>
+            <p class="text-lg text-gray-700 mb-6">
+                Please log in with Discord to access full features and participate in the UALV community.
+            </p>
+            <a id="modalLoginButton" href="#" class="discord-login-btn">Login with Discord</a>
+        </div>
+    </div>
+
+    <script>
+        // Your Discord Client ID from the Discord Developer Portal
+        const CLIENT_ID = "1393678655351427183";
+        // The Redirect URI must EXACTLY match what's configured in your Discord OAuth2 settings
+        const REDIRECT_URI = "https://pfualv.github.io/flyualv/"; 
+
+        // Discord authorization URL - CRITICAL: Changed response_type to 'token'
+        const AUTH_URL = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=identify`;
+
+        // Select the div where user actions will be displayed
+        const userActionsDiv = document.querySelector(".user-actions");
+        // Select the custom login modal and its button
+        const loginModal = document.getElementById("loginModal");
+        const modalLoginButton = document.getElementById("modalLoginButton");
+
+        /**
+         * Displays user information (avatar, username) and a logout button.
+         * @param {object} user - The Discord user object.
+         */
+        function showUser(user) {
+            const avatarUrl = user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : 'https://discord.com/assets/f135b1fcd3d2c4935480d19e910540d5.png'; 
+            userActionsDiv.innerHTML = `
+                <div class="user-info">
+                    <img src="${avatarUrl}" alt="User Avatar">
+                    <span>${user.username}${user.discriminator && user.discriminator !== '0' ? `#${user.discriminator}` : ''}</span>
+                </div>
+                <button id="logout-btn" class="logout-button">Logout</button>
+            `;
+
+            // Attach event listener to the logout button
+            document.getElementById("logout-btn").onclick = () => {
+                localStorage.removeItem("discordUser"); // Clear user data from local storage
+                window.location.href = REDIRECT_URI; // Reload to reset state and clear URL hash
+            };
+
+            // Hide the login modal if it's currently shown
+            loginModal.classList.remove("show");
+        }
+
+        /**
+         * Displays the custom Discord login modal.
+         */
+        function showLoginButton() {
+            // Set the modal's login button href
+            modalLoginButton.href = AUTH_URL;
+            // Show the modal
+            loginModal.classList.add("show");
+
+            // Clear user actions div in header
+            userActionsDiv.innerHTML = '';
+            // Optionally, you can add a simple "Login" text here if the modal is not immediately visible
+            // userActionsDiv.innerHTML = `<a href="${AUTH_URL}" class="discord-login-btn">Login with Discord</a>`;
+        }
+
+        // --- Main login state management logic ---
+        // Get the URL hash (e.g., #access_token=...)
+        const hash = window.location.hash.substring(1);
+        // Parse the hash parameters
+        const params = new URLSearchParams(hash);
+        // Get the access token from the parameters
+        const token = params.get("access_token"); 
+
+        // Try to retrieve saved user data from local storage
+        const savedUser = JSON.parse(localStorage.getItem("discordUser"));
+
+        if (token) {
+            // If a new access token is present in the URL (after a successful Discord login)
+            // Clean the URL by removing the hash to prevent token exposure and re-processing on refresh
+            window.history.replaceState({}, document.title, REDIRECT_URI); 
+
+            // Fetch user data from Discord API using the obtained token
+            fetch("https://discord.com/api/users/@me", {
+                headers: {
+                    Authorization: `Bearer ${token}` // Use the access token for authorization
+                }
+            })
+            .then(res => {
+                // Check if the response was successful (status code 200-299)
+                if (!res.ok) {
+                    console.error("Discord API error:", res.status, res.statusText);
+                    localStorage.removeItem("discordUser"); // Clear any stale user data
+                    showLoginButton(); // Show the login modal
+                    throw new Error("Failed to fetch user data from Discord"); // Propagate error
+                }
+                return res.json(); // Parse the JSON response
+            })
+            .then(user => {
+                // If user data is valid (has an ID)
+                if (user.id) {
+                    localStorage.setItem("discordUser", JSON.stringify(user)); // Save user data to local storage
+                    showUser(user); // Display user info
+                } else {
+                    // Handle cases where Discord returns unexpected or incomplete user data
+                    console.error("Invalid Discord user data received:", user);
+                    localStorage.removeItem("discordUser"); // Clear invalid data
+                    showLoginButton(); // Show the login modal
+                }
+            })
+            .catch(error => {
+                // Catch any errors during the fetch or processing
+                console.error("Error during Discord user fetch or processing:", error);
+                localStorage.removeItem("discordUser"); // Ensure local storage is clean
+                showLoginButton(); // Show the login modal
+            });
+        } else if (savedUser) {
+            // If no new token, but a user is saved in local storage (already logged in from a previous session)
+            showUser(savedUser); // Display saved user info
+        } else {
+            // If no token and no saved user, prompt for login
+            showLoginButton(); // Show the login modal
+        }
+    </script>
+</body>
+</html>
