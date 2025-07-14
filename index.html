@@ -5,32 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>United Airlines Virtual (UALV)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="uni(1).png" type="image/png" />
     <style>
         /* Custom CSS to apply Inter font globally and smooth scrolling */
         body {
             font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            /* Ensure background covers even after loading screen hides */
-            background-color: #1a202c; /* Tailwind's gray-900 equivalent */
+            scroll-behavior: smooth; /* This enables smooth scrolling */
         }
         /* Custom scrollbar for a cleaner look */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #2d3748; /* Darker scrollbar track */
+            background: #f1f1f1;
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb {
-            background: #4a5568; /* Darker scrollbar thumb */
+            background: #888;
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #718096; /* Lighter on hover */
-            cursor: pointer;
+            background: #555;
+            cursor: pointer; /* Indicate it's interactive */
         }
 
         /* Styles for the custom login modal */
@@ -40,11 +37,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.85); /* Darker, more opaque overlay */
+            background-color: rgba(0, 0, 0, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 1000; /* Ensure it's on top of other content */
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -56,17 +53,15 @@
         }
 
         .modal-content {
-            background-color: #1a202c; /* Dark background for modal */
+            background-color: #fff;
             padding: 2.5rem;
             border-radius: 1rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             text-align: center;
             max-width: 90%;
             width: 400px;
             transform: translateY(-20px);
             transition: transform 0.3s ease;
-            border: 1px solid #2d3748; /* Subtle border */
-            color: #e2e8f0; /* Ensure modal text is light */
         }
 
         .modal-overlay.show .modal-content {
@@ -78,35 +73,35 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            background-color: rgba(255, 255, 255, 0.15); /* Slightly more visible */
+            background-color: rgba(255, 255, 255, 0.1);
             padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 9999px; /* Full rounded */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .user-info img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            border: 2px solid #a0aec0; /* Lighter border for contrast */
+            border: 2px solid #fff;
         }
 
         .user-info span {
             font-weight: 500;
-            color: #e2e8f0; /* Lighter text for contrast */
+            color: #fff;
         }
 
         .logout-button {
             background-color: #ef4444; /* Red-500 */
             color: white;
             padding: 0.5rem 1rem;
-            border-radius: 9999px;
+            border-radius: 9999px; /* Full rounded */
             font-weight: 600;
             transition: background-color 0.3s ease;
             cursor: pointer;
             border: none;
             margin-left: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .logout-button:hover {
@@ -122,7 +117,7 @@
             transition: background-color 0.3s ease, transform 0.2s ease;
             display: inline-block;
             text-decoration: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .discord-login-btn:hover {
@@ -130,111 +125,31 @@
             transform: translateY(-2px);
         }
 
-        /* Loading Screen Styles */
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a202c, #2d3748); /* Dark gradient */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 1s ease-out, visibility 1s ease-out;
+        /* Custom style for the dark blue button */
+        .btn-dark-blue {
+            background-color: #1a202c; /* A dark blue color, adjust as needed */
+            color: white;
         }
-
-        #loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none; /* Prevent interaction with hidden screen */
-        }
-
-        .loading-logo {
-            width: 150px;
-            height: 150px;
-            margin-bottom: 2rem;
-            animation: bounceIn 1s ease-out; /* Add a subtle entrance animation */
-        }
-
-        .loading-spinner {
-            border: 8px solid rgba(255, 255, 255, 0.2);
-            border-top: 8px solid #a0aec0; /* Lighter spinner color */
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite, fadeIn 0.8s ease-in;
-            margin-bottom: 1.5rem;
-        }
-
-        .loading-text {
-            color: #e2e8f0;
-            font-size: 1.5rem;
-            font-weight: 600;
-            animation: fadeIn 0.8s ease-in;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes bounceIn {
-            0%, 20%, 40%, 60%, 80%, 100% {
-                transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-            }
-            0% {
-                opacity: 0;
-                transform: scale3d(0.3, 0.3, 0.3);
-            }
-            20% {
-                transform: scale3d(1.1, 1.1, 1.1);
-            }
-            40% {
-                transform: scale3d(0.9, 0.9, 0.9);
-            }
-            60% {
-                opacity: 1;
-                transform: scale3d(1.03, 1.03, 1.03);
-            }
-            80% {
-                transform: scale3d(0.97, 0.97, 0.97);
-            }
-            100% {
-                opacity: 1;
-                transform: scale3d(1, 1, 1);
-            }
+        .btn-dark-blue:hover {
+            background-color: #2d3748; /* A slightly lighter dark blue for hover */
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-200">
+<body class="bg-gray-100 text-gray-800">
 
-    <div id="loading-screen">
-        <img src="uni(1).png" alt="United Airlines Virtual Logo" class="loading-logo">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">Loading... Stuck here? Contact <a href="https://discord.com/users/1129726655569600602">Our Developer</div>
-    </div>
-
-    <header class="bg-blue-900 text-white shadow-lg py-4 px-6 md:px-12 rounded-b-xl">
+    <header class="bg-blue-800 text-white shadow-lg py-4 px-6 md:px-12 rounded-b-xl">
         <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
             <div class="flex items-center space-x-4 mb-4 md:mb-0">
                 <img src="https://ik.imagekit.io/hswtnwf8i/United-Airlines-New-Logo.png?updatedAt=1752349203460" alt="UALV Logo" class="h-16 w-16 rounded-full shadow-md">
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">United Airlines Virtual</h1>
+                <h1 class="text-3xl md:text-4xl font-bold tracking-tight">United Airlines Virtual</h1>
             </div>
             <nav class="flex-grow flex justify-center md:justify-end">
                 <ul class="flex flex-wrap justify-center md:space-x-8 space-x-4">
-                    <li><a href="#home" class="hover:text-blue-300 transition duration-300 text-lg font-medium">Home</a></li>
-                    <li><a href="#about" class="hover:text-blue-300 transition duration-300 text-lg font-medium">About</a></li>
-                    <li><a href="#discord" class="hover:text-blue-300 transition duration-300 text-lg font-medium">Discord</a></li>
-                    <li><a href="#features" class="hover:text-blue-300 transition duration-300 text-lg font-medium">Features</a></li>
-                    <li><a href="#join" class="hover:text-blue-300 transition duration-300 text-lg font-medium">Join Us</a></li>
+                    <li><a href="#home" class="scroll-link hover:text-blue-200 transition duration-300 text-lg font-medium">Home</a></li>
+                    <li><a href="#about" class="scroll-link hover:text-blue-200 transition duration-300 text-lg font-medium">About</a></li>
+                    <li><a href="#discord" class="scroll-link hover:text-blue-200 transition duration-300 text-lg font-medium">Discord</a></li>
+                    <li><a href="#features" class="scroll-link hover:text-blue-200 transition duration-300 text-lg font-medium">Features</a></li>
+                    <li><a href="#join" class="scroll-link hover:text-blue-200 transition duration-300 text-lg font-medium">Join Us</a></li>
                 </ul>
             </nav>
             <div class="user-actions mt-4 md:mt-0 md:ml-8 flex items-center">
@@ -242,14 +157,14 @@
         </div>
     </header>
 
-    <section id="home" class="relative bg-gradient-to-r from-blue-800 to-blue-950 text-white py-20 md:py-32 flex items-center justify-center overflow-hidden rounded-b-xl shadow-inner">
-        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23a0aec0\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm12 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm-24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm-24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zM0 40v-4h-2v4H0v2h4v4h2v-4h4v-2H6v-4H2zm0-10V0h-2v4H0v2h4v4h2V6h4V4h-4zm0-10V0h-2v4H0v2h4v4h2V6h4V4h-4zM24 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zM48 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4z\' fill=\'%239C92AC\' fill-opacity=\'0.05\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+    <section id="home" class="relative bg-gradient-to-r from-blue-700 to-blue-900 text-white py-20 md:py-32 flex items-center justify-center overflow-hidden rounded-b-xl shadow-inner">
+        <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm12 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm-24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm-24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zM0 40v-4h-2v4H0v2h4v4h2v-4h4v-2H6v-4H2zm0-10V0h-2v4H0v2h4v4h2V6h4V4h-4zm0-10V0h-2v4H0v2h4v4h2V6h4V4h-4zM24 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zM48 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4z\' fill=\'%239C92AC\' fill-opacity=\'0.1\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
         <div class="container mx-auto text-center relative z-10">
-            <h2 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-lg">Fly the Friendly Skies, Virtually!</h2>
+            <h2 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Fly the Friendly Skies, Virtually!</h2>
             <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto opacity-90">
-                Welcome to United Airlines Virtual (UALV) – your premier destination for realistic flight simulation on the Project Flight network, featuring a <span class="font-bold text-yellow-300">unique virtual economy</span> and a vibrant community.
+                Welcome to United Airlines Virtual (UALV) – your premier destination for realistic flight simulation on the Project Flight network, featuring a <span class="font-semibold text-yellow-300">unique virtual economy</span> and a vibrant community.
             </p>
-            <a href="#join" class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out inline-block">
+            <a href="#join" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out inline-block">
                 Join Our Discord Server
             </a>
         </div>
@@ -257,13 +172,13 @@
 
     <main class="container mx-auto py-16 px-6 md:px-12">
 
-        <section id="about" class="bg-gray-800 p-8 md:p-12 rounded-xl shadow-lg mb-16 border border-gray-700">
-            <h3 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6 text-center">About United Airlines Virtual</h3>
+        <section id="about" class="bg-white p-8 md:p-12 rounded-xl shadow-lg mb-16">
+            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-6 text-center">About United Airlines Virtual</h3>
             <div class="flex flex-col md:flex-row items-center md:space-x-8">
                 <div class="md:w-1/2 mb-6 md:mb-0">
-                    <img src="https://i.ibb.co/279pSRcz/United-Airlines-Join-Us-Image.png" alt="UALV Community Aircraft" class="rounded-lg shadow-md w-full h-auto border border-gray-700">
+                    <img src="https://i.ibb.co/279pSRcz/United-Airlines-Join-Us-Image.png" alt="UALV Community" class="rounded-lg shadow-md w-full h-auto">
                 </div>
-                <div class="md:w-1/2 text-gray-300">
+                <div class="md:w-1/2">
                     <p class="text-lg leading-relaxed mb-4">
                         United Airlines Virtual (UALV) is a dedicated community of flight simulation enthusiasts on the Project Flight network. While many airlines follow the 'log flights, climb ranks, get to the top' system, UALV offers a refreshing change with a vastly different and engaging operational experience.
                     </p>
@@ -277,13 +192,13 @@
             </div>
         </section>
 
-        <section id="discord" class="bg-gray-800 p-8 md:p-12 rounded-xl shadow-lg mb-16 border border-gray-700">
-            <h3 class="text-3xl md:text-4xl font-bold text-blue-400 mb-6 text-center">Our Discord Server</h3>
+        <section id="discord" class="bg-blue-100 p-8 md:p-12 rounded-xl shadow-lg mb-16">
+            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-6 text-center">Our Discord Server</h3>
             <div class="flex flex-col md:flex-row-reverse items-center md:space-x-reverse md:space-x-8">
                 <div class="md:w-1/2 mb-6 md:mb-0">
-                    <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/665643dd8c7ac752237b5cef_Discord-OG-1200x630.jpg" alt="Discord Community Image" class="rounded-lg shadow-md w-full h-auto border border-gray-700">
+                    <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/665643dd8c7ac752237b5cef_Discord-OG-1200x630.jpg" alt="Discord Community" class="rounded-lg shadow-md w-full h-auto">
                 </div>
-                <div class="md:w-1/2 text-gray-300">
+                <div class="md:w-1/2">
                     <p class="text-lg leading-relaxed mb-4">
                         The UALV Discord server is the heart of our community. It's where pilots connect, claim flight contracts, plan flights, share experiences, and participate in events. You'll find channels for:
                     </p>
@@ -301,61 +216,61 @@
             </div>
         </section>
 
-        <section id="features" class="bg-gray-800 p-8 md:p-12 rounded-xl shadow-lg mb-16 border border-gray-700">
-            <h3 class="text-3xl md:text-4xl font-bold text-blue-400 mb-8 text-center">What UALV Offers</h3>
+        <section id="features" class="bg-white p-8 md:p-12 rounded-xl shadow-lg mb-16">
+            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-8 text-center">What UALV Offers</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 border border-gray-600">
-                    <div class="flex items-center justify-center h-16 w-16 bg-blue-600 text-yellow-300 rounded-full mb-4 mx-auto text-3xl font-bold">💰</div>
-                    <h4 class="text-xl font-semibold text-blue-300 mb-3 text-center">Dynamic Virtual Economy</h4>
-                    <p class="text-gray-300 text-center">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">💰</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Dynamic Virtual Economy</h4>
+                    <p class="text-gray-700 text-center">
                         Go beyond simple flight logging! Claim flight contracts to earn virtual cash and progress through our unique system.
                     </p>
                 </div>
-                <div class="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 border border-gray-600">
-                    <div class="flex items-center justify-center h-16 w-16 bg-blue-600 text-yellow-300 rounded-full mb-4 mx-auto text-3xl font-bold">🌟</div>
-                    <h4 class="text-xl font-semibold text-blue-300 mb-3 text-center">Exclusive Premier Tiers</h4>
-                    <p class="text-gray-300 text-center">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🌟</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Exclusive Premier Tiers</h4>
+                    <p class="text-gray-700 text-center">
                         Use your virtual cash to purchase Premier Status Tiers, unlocking exciting benefits like exclusive contracts and early giveaway notices!
                     </p>
                 </div>
-                <div class="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 border border-gray-600">
-                    <div class="flex items-center justify-center h-16 w-16 bg-blue-600 text-yellow-300 rounded-full mb-4 mx-auto text-3xl font-bold">✈️</div>
-                    <h4 class="text-xl font-semibold text-blue-300 mb-3 text-center">Authentic Flight Simulation</h4>
-                    <p class="text-gray-300 text-center">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">✈️</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Authentic Flight Simulation</h4>
+                    <p class="text-gray-700 text-center">
                         Experience flight operations modeled as close as possible to real-world United Airlines procedures on the Project Flight network.
                     </p>
                 </div>
-                <div class="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 border border-gray-600">
-                    <div class="flex items-center justify-center h-16 w-16 bg-blue-600 text-yellow-300 rounded-full mb-4 mx-auto text-3xl font-bold">🤝</div>
-                    <h4 class="text-xl font-semibold text-blue-300 mb-3 text-center">Vibrant & Expanded Community</h4>
-                    <p class="text-gray-300 text-center">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🤝</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Vibrant & Expanded Community</h4>
+                    <p class="text-gray-700 text-center">
                         Join a friendly and active community, now strengthened by new, experienced members for an even richer experience.
                     </p>
                 </div>
-                <div class="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 border border-gray-600">
-                    <div class="flex items-center justify-center h-16 w-16 bg-blue-600 text-yellow-300 rounded-full mb-4 mx-auto text-3xl font-bold">🗓️</div>
-                    <h4 class="text-xl font-semibold text-blue-300 mb-3 text-center">Engaging Events & Progression</h4>
-                    <p class="text-gray-300 text-center">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🗓️</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Engaging Events & Progression</h4>
+                    <p class="text-gray-700 text-center">
                         Participate in regular group flights and continuously progress both your Pilot Ranks and Premier Tiers.
                     </p>
                 </div>
-                <div class="bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 border border-gray-600">
-                    <div class="flex items-center justify-center h-16 w-16 bg-blue-600 text-yellow-300 rounded-full mb-4 mx-auto text-3xl font-bold">🎮</div>
-                    <h4 class="text-xl font-semibold text-blue-300 mb-3 text-center">Project Flight Focused</h4>
-                    <p class="text-gray-300 text-center">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🎮</div>
+                    <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Project Flight Focused</h4>
+                    <p class="text-gray-700 text-center">
                         Designed for the Project Flight network, offering a unique and engaging experience unlike others.
                     </p>
                 </div>
             </div>
         </section>
 
-        <section id="join" class="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-8 md:p-12 rounded-xl shadow-lg text-center border border-blue-600">
+        <section id="join" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 md:p-12 rounded-xl shadow-lg text-center">
             <h3 class="text-3xl md:text-4xl font-bold mb-6">Ready to Join UALV?</h3>
             <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
                 Becoming a part of the United Airlines Virtual family is easy! Simply click the button below to join our Discord server and start your unique virtual aviation journey on Project Flight.
             </p>
             <a href="https://discord.gg/g6chD6vbyE" target="_blank" rel="noopener noreferrer"
-               class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-4 px-10 rounded-full text-2xl shadow-xl transform hover:scale-105 transition duration-300 ease-in-out inline-block animate-pulse">
+               class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-4 px-10 rounded-full text-2xl shadow-xl transform hover:scale-105 transition duration-300 ease-in-out inline-block animate-pulse">
                 Join UALV Discord Now!
             </a>
             <p class="text-sm mt-4 opacity-80">
@@ -364,7 +279,7 @@
 
     </main>
 
-    <footer class="bg-blue-950 text-white py-8 px-6 md:px-12 mt-16 rounded-t-xl shadow-inner border-t border-blue-800">
+    <footer class="bg-blue-900 text-white py-8 px-6 md:px-12 mt-16 rounded-t-xl shadow-inner">
         <div class="container mx-auto text-center">
             <p class="text-lg mb-4">&copy; 2025 United Airlines Virtual (UALV). All rights reserved.</p>
             <p class="text-sm opacity-80">
@@ -377,8 +292,8 @@
 
     <div id="loginModal" class="modal-overlay">
         <div class="modal-content">
-            <h3 class="text-2xl font-bold text-blue-400 mb-4">Login Required</h3>
-            <p class="text-lg text-gray-300 mb-6">
+            <h3 class="text-2xl font-bold text-blue-800 mb-4">Login Required</h3>
+            <p class="text-lg text-gray-700 mb-6">
                 Please log in with Discord to access full features and participate in the UALV community.
             </p>
             <a id="modalLoginButton" href="#" class="discord-login-btn">Login with Discord</a>
@@ -386,35 +301,30 @@
     </div>
 
     <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a.scroll-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default jump to anchor
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth' // Smooth scroll
+                });
+            });
+        });
+
         // Your Discord Client ID from the Discord Developer Portal
         const CLIENT_ID = "1393678655351427183";
         // The Redirect URI must EXACTLY match what's configured in your Discord OAuth2 settings
         const REDIRECT_URI = "https://pfualv.github.io/flyualv/"; 
 
-        // Discord authorization URL
+        // Discord authorization URL - CRITICAL: Changed response_type to 'token'
         const AUTH_URL = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=identify`;
 
-        // Select elements
+        // Select the div where user actions will be displayed
         const userActionsDiv = document.querySelector(".user-actions");
+        // Select the custom login modal and its button
         const loginModal = document.getElementById("loginModal");
         const modalLoginButton = document.getElementById("modalLoginButton");
-        const loadingScreen = document.getElementById('loading-screen');
-
-        /**
-         * Hides the loading screen once the page content is loaded.
-         * This function runs when the browser's 'load' event fires,
-         * indicating all resources (images, scripts, etc.) have loaded.
-         */
-        window.addEventListener('load', () => {
-            // Give a slight delay for the loading animation to be seen
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                document.body.style.overflowY = 'auto'; // Re-enable scroll after loading
-            }, 1000); 
-        });
-
-        // Initially hide scrollbar while loading to prevent content flash
-        document.body.style.overflowY = 'hidden';
 
         /**
          * Displays user information (avatar, username) and a logout button.
@@ -424,7 +334,7 @@
             const avatarUrl = user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : 'https://discord.com/assets/f135b1fcd3d2c4935480d19e910540d5.png'; 
             userActionsDiv.innerHTML = `
                 <div class="user-info">
-                    <img src="${avatarUrl}" alt="${user.username} Avatar">
+                    <img src="${avatarUrl}" alt="User Avatar">
                     <span>${user.username}${user.discriminator && user.discriminator !== '0' ? `#${user.discriminator}` : ''}</span>
                 </div>
                 <button id="logout-btn" class="logout-button">Logout</button>
@@ -433,8 +343,7 @@
             // Attach event listener to the logout button
             document.getElementById("logout-btn").onclick = () => {
                 localStorage.removeItem("discordUser"); // Clear user data from local storage
-                // Use window.location.replace to clear the history entry as well
-                window.location.replace(REDIRECT_URI); 
+                window.location.href = REDIRECT_URI; // Reload to reset state and clear URL hash
             };
 
             // Hide the login modal if it's currently shown
@@ -452,6 +361,8 @@
 
             // Clear user actions div in header
             userActionsDiv.innerHTML = '';
+            // Optionally, you can add a simple "Login" text here if the modal is not immediately visible
+            // userActionsDiv.innerHTML = `<a href="${AUTH_URL}" class="discord-login-btn">Login with Discord</a>`;
         }
 
         // --- Main login state management logic ---
@@ -477,36 +388,39 @@
                 }
             })
             .then(res => {
+                // Check if the response was successful (status code 200-299)
                 if (!res.ok) {
                     console.error("Discord API error:", res.status, res.statusText);
-                    // If Discord API returns an error, assume token is invalid or expired
-                    localStorage.removeItem("discordUser"); 
-                    showLoginButton(); 
-                    throw new Error(`Failed to fetch user data from Discord: ${res.statusText}`); 
+                    localStorage.removeItem("discordUser"); // Clear any stale user data
+                    showLoginButton(); // Show the login modal
+                    throw new Error("Failed to fetch user data from Discord"); // Propagate error
                 }
-                return res.json(); 
+                return res.json(); // Parse the JSON response
             })
             .then(user => {
+                // If user data is valid (has an ID)
                 if (user.id) {
-                    localStorage.setItem("discordUser", JSON.stringify(user)); 
-                    showUser(user); 
+                    localStorage.setItem("discordUser", JSON.stringify(user)); // Save user data to local storage
+                    showUser(user); // Display user info
                 } else {
+                    // Handle cases where Discord returns unexpected or incomplete user data
                     console.error("Invalid Discord user data received:", user);
-                    localStorage.removeItem("discordUser"); 
-                    showLoginButton(); 
+                    localStorage.removeItem("discordUser"); // Clear invalid data
+                    showLoginButton(); // Show the login modal
                 }
             })
             .catch(error => {
+                // Catch any errors during the fetch or processing
                 console.error("Error during Discord user fetch or processing:", error);
-                localStorage.removeItem("discordUser"); 
-                showLoginButton(); 
+                localStorage.removeItem("discordUser"); // Ensure local storage is clean
+                showLoginButton(); // Show the login modal
             });
         } else if (savedUser) {
             // If no new token, but a user is saved in local storage (already logged in from a previous session)
-            showUser(savedUser); 
+            showUser(savedUser); // Display saved user info
         } else {
             // If no token and no saved user, prompt for login
-            showLoginButton(); 
+            showLoginButton(); // Show the login modal
         }
     </script>
 </body>
