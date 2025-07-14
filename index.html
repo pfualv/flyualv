@@ -7,6 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="uni(1).png" type="image/png" />
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
         /* Custom CSS to apply Inter font globally and smooth scrolling */
         body {
@@ -133,13 +136,24 @@
         .btn-dark-blue:hover {
             background-color: #2d3748; /* A slightly lighter dark blue for hover */
         }
+
+        /* Animation for navbar button click feedback */
+        .nav-link-clicked {
+            animation: pulse-light 0.3s ease-out;
+        }
+
+        @keyframes pulse-light {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
     <header class="bg-blue-800 text-white shadow-lg py-4 px-6 md:px-12 rounded-b-xl">
         <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
-            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0" data-aos="fade-right" data-aos-duration="1000">
                 <img src="https://ik.imagekit.io/hswtnwf8i/United-Airlines-New-Logo.png?updatedAt=1752349203460" alt="UALV Logo" class="h-16 w-16 rounded-full shadow-md">
                 <h1 class="text-3xl md:text-4xl font-bold tracking-tight">United Airlines Virtual</h1>
             </div>
@@ -152,19 +166,19 @@
                     <li><a href="#join" class="scroll-link hover:text-blue-200 transition duration-300 text-lg font-medium">Join Us</a></li>
                 </ul>
             </nav>
-            <div class="user-actions mt-4 md:mt-0 md:ml-8 flex items-center">
+            <div class="user-actions mt-4 md:mt-0 md:ml-8 flex items-center" data-aos="fade-left" data-aos-duration="1000">
                 </div>
         </div>
     </header>
 
     <section id="home" class="relative bg-gradient-to-r from-blue-700 to-blue-900 text-white py-20 md:py-32 flex items-center justify-center overflow-hidden rounded-b-xl shadow-inner">
         <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm12 14v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm-24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm-24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zM0 40v-4h-2v4H0v2h4v4h2v-4h4v-2H6v-4H2zm0-10V0h-2v4H0v2h4v4h2V6h4V4h-4zm0-10V0h-2v4H0v2h4v4h2V6h4V4h-4zM24 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zM48 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4zm0-10V0h-2v4h-4v2h4v4h2V6h4V4h-4z\' fill=\'%239C92AC\' fill-opacity=\'0.1\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
-        <div class="container mx-auto text-center relative z-10">
+        <div class="container mx-auto text-center relative z-10" data-aos="fade-up" data-aos-duration="1200">
             <h2 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Fly the Friendly Skies, Virtually!</h2>
             <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto opacity-90">
                 Welcome to United Airlines Virtual (UALV) – your premier destination for realistic flight simulation on the Project Flight network, featuring a <span class="font-semibold text-yellow-300">unique virtual economy</span> and a vibrant community.
             </p>
-            <a href="#join" class="bg-blue-900 hover:bg-blue-800 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out inline-block">
+            <a href="#join" class="scroll-link bg-blue-900 hover:bg-blue-800 text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out inline-block">
                 Join Our Discord Server
             </a>
         </div>
@@ -172,13 +186,13 @@
 
     <main class="container mx-auto py-16 px-6 md:px-12">
 
-        <section id="about" class="bg-white p-8 md:p-12 rounded-xl shadow-lg mb-16">
-            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-6 text-center">About United Airlines Virtual</h3>
+        <section id="about" class="bg-white p-8 md:p-12 rounded-xl shadow-lg mb-16" data-aos="fade-up" data-aos-delay="100">
+            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-6 text-center" data-aos="fade-down" data-aos-duration="800">About United Airlines Virtual</h3>
             <div class="flex flex-col md:flex-row items-center md:space-x-8">
-                <div class="md:w-1/2 mb-6 md:mb-0">
+                <div class="md:w-1/2 mb-6 md:mb-0" data-aos="fade-right" data-aos-duration="1000">
                     <img src="https://i.ibb.co/279pSRcz/United-Airlines-Join-Us-Image.png" alt="UALV Community" class="rounded-lg shadow-md w-full h-auto">
                 </div>
-                <div class="md:w-1/2">
+                <div class="md:w-1/2" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
                     <p class="text-lg leading-relaxed mb-4">
                         United Airlines Virtual (UALV) is a dedicated community of flight simulation enthusiasts on the Project Flight network. While many airlines follow the 'log flights, climb ranks, get to the top' system, UALV offers a refreshing change with a vastly different and engaging operational experience.
                     </p>
@@ -192,13 +206,13 @@
             </div>
         </section>
 
-        <section id="discord" class="bg-blue-100 p-8 md:p-12 rounded-xl shadow-lg mb-16">
-            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-6 text-center">Our Discord Server</h3>
+        <section id="discord" class="bg-blue-100 p-8 md:p-12 rounded-xl shadow-lg mb-16" data-aos="fade-up" data-aos-delay="100">
+            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-6 text-center" data-aos="fade-down" data-aos-duration="800">Our Discord Server</h3>
             <div class="flex flex-col md:flex-row-reverse items-center md:space-x-reverse md:space-x-8">
-                <div class="md:w-1/2 mb-6 md:mb-0">
+                <div class="md:w-1/2 mb-6 md:mb-0" data-aos="fade-left" data-aos-duration="1000">
                     <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/665643dd8c7ac752237b5cef_Discord-OG-1200x630.jpg" alt="Discord Community" class="rounded-lg shadow-md w-full h-auto">
                 </div>
-                <div class="md:w-1/2">
+                <div class="md:w-1/2" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
                     <p class="text-lg leading-relaxed mb-4">
                         The UALV Discord server is the heart of our community. It's where pilots connect, claim flight contracts, plan flights, share experiences, and participate in events. You'll find channels for:
                     </p>
@@ -216,45 +230,45 @@
             </div>
         </section>
 
-        <section id="features" class="bg-white p-8 md:p-12 rounded-xl shadow-lg mb-16">
-            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-8 text-center">What UALV Offers</h3>
+        <section id="features" class="bg-white p-8 md:p-12 rounded-xl shadow-lg mb-16" data-aos="fade-up" data-aos-delay="100">
+            <h3 class="text-3xl md:text-4xl font-bold text-blue-800 mb-8 text-center" data-aos="fade-down" data-aos-duration="800">What UALV Offers</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="100">
                     <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">💰</div>
                     <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Dynamic Virtual Economy</h4>
                     <p class="text-gray-700 text-center">
                         Go beyond simple flight logging! Claim flight contracts to earn virtual cash and progress through our unique system.
                     </p>
                 </div>
-                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="200">
                     <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🌟</div>
                     <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Exclusive Premier Tiers</h4>
                     <p class="text-gray-700 text-center">
                         Use your virtual cash to purchase Premier Status Tiers, unlocking exciting benefits like exclusive contracts and early giveaway notices!
                     </p>
                 </div>
-                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="300">
                     <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">✈️</div>
                     <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Authentic Flight Simulation</h4>
                     <p class="text-gray-700 text-center">
                         Experience flight operations modeled as close as possible to real-world United Airlines procedures on the Project Flight network.
                     </p>
                 </div>
-                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="400">
                     <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🤝</div>
                     <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Vibrant & Expanded Community</h4>
                     <p class="text-gray-700 text-center">
                         Join a friendly and active community, now strengthened by new, experienced members for an even richer experience.
                     </p>
                 </div>
-                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="500">
                     <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🗓️</div>
                     <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Engaging Events & Progression</h4>
                     <p class="text-gray-700 text-center">
                         Participate in regular group flights and continuously progress both your Pilot Ranks and Premier Tiers.
                     </p>
                 </div>
-                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="600">
                     <div class="flex items-center justify-center h-16 w-16 bg-blue-200 text-blue-800 rounded-full mb-4 mx-auto text-3xl font-bold">🎮</div>
                     <h4 class="text-xl font-semibold text-blue-700 mb-3 text-center">Project Flight Focused</h4>
                     <p class="text-gray-700 text-center">
@@ -264,7 +278,7 @@
             </div>
         </section>
 
-        <section id="join" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 md:p-12 rounded-xl shadow-lg text-center">
+        <section id="join" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 md:p-12 rounded-xl shadow-lg text-center" data-aos="zoom-in" data-aos-duration="1000">
             <h3 class="text-3xl md:text-4xl font-bold mb-6">Ready to Join UALV?</h3>
             <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
                 Becoming a part of the United Airlines Virtual family is easy! Simply click the button below to join our Discord server and start your unique virtual aviation journey on Project Flight.
@@ -279,7 +293,7 @@
 
     </main>
 
-    <footer class="bg-blue-900 text-white py-8 px-6 md:px-12 mt-16 rounded-t-xl shadow-inner">
+    <footer class="bg-blue-900 text-white py-8 px-6 md:px-12 mt-16 rounded-t-xl shadow-inner" data-aos="fade-up" data-aos-delay="100">
         <div class="container mx-auto text-center">
             <p class="text-lg mb-4">&copy; 2025 United Airlines Virtual (UALV). All rights reserved.</p>
             <p class="text-sm opacity-80">
@@ -300,15 +314,36 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Smooth scrolling for navigation links
+        // Initialize AOS
+        AOS.init({
+            once: true, // Whether animation should happen only once - while scrolling down
+            mirror: false // Whether elements should animate out while scrolling past them
+        });
+
+        // Smooth scrolling for navigation links and hero CTA
         document.querySelectorAll('a.scroll-link').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault(); // Prevent default jump to anchor
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth' // Smooth scroll
-                });
+                // Add a temporary animation class to the clicked link
+                this.classList.add('nav-link-clicked');
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth' // Smooth scroll
+                    });
+                }
+
+                // Remove the animation class after the animation duration
+                const link = this;
+                setTimeout(() => {
+                    link.classList.remove('nav-link-clicked');
+                }, 300); // Match this to the animation duration (0.3s)
             });
         });
 
